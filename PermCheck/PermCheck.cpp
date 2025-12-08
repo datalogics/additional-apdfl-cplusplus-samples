@@ -81,16 +81,10 @@ int main(int argc, char** argv)
 		if (data != NULL) {
 			printf("\nStd Security Data Revision: %d\n", data->revision);
 
-			// char buffer[33];
-			// _itoa(data->perms, buffer, 2);
-			// printf("\nStd Security Data Permission [%d:%s] bits:\n", data->perms, buffer);
+			char buffer[65] = {};
+			snprintf(buffer,sizeof(buffer), "\nStd Security Data Permission [0x%x] bits:\n", data->perms);
 
-			// non-standard function _itoa replaced with sprintf() for more universal compiler compatibility
-
-			char buffer[33];
-			sprintf(buffer, "\nStd Security Data Permission [%d:%s] bits:\n", data->perms, buffer);
-
-			printf("\nStd Security Data Permission [%d:%s] bits:\n", data->perms, buffer);
+			printf("\n%s\n", buffer);
 			for (int i = 0; i < LEN(docPerms); i++)
 			{
 				bitSet = data->perms & docPerms[i];
@@ -107,7 +101,7 @@ int main(int argc, char** argv)
 		for (int i = 0; i < LEN(testObjs); i++)
 		{
 			curObj = testObjs[i];
-			sprintf(szOp, "%s (%d):", objStr[curObj - 1], curObj);
+			snprintf(szOp,sizeof(szOp), "%s (%d):", objStr[curObj - 1], curObj);
 			printf("%-15s ", szOp);
 		}
 		printf("\n");
@@ -124,7 +118,7 @@ int main(int argc, char** argv)
 				curObj = testObjs[i];
 
 				status = PDDocPermRequest(pddoc, curObj, curOp, data);
-				sprintf(szOp, "%s: %s", objStr[curObj - 1], statStr[status + 1]);
+				snprintf(szOp, sizeof(szOp), "%s: %s", objStr[curObj - 1], statStr[status + 1]);
 				printf("%-15s ", szOp);
 			}
 			printf("\n");
